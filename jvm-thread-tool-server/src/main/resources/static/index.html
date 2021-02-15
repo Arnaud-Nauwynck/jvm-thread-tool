@@ -1,0 +1,19 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="lib/d3-flamegraph.css">
+</head>
+<body>
+  <div id="chart"></div>
+  <script type="text/javascript" src="lib/d3.v4.min.js"></script>
+  <script type="text/javascript" src="lib/d3-flamegraph.min.js"></script>
+  <script type="text/javascript">
+  var chart = flamegraph()
+    .width(960);
+
+  d3.json("/flame-graph", function(error, data) {
+    if (error) return console.warn(error);
+    d3.select("#chart")
+      .datum(data)
+      .call(chart);
+  });
+  </script>
+</body>

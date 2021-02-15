@@ -4,53 +4,38 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>flame-graph-agent</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
+	<groupId>fr.an.jvm.thread.tool</groupId>
+	<artifactId>jvm-thread-tool-parent</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
-            <scope>compile</scope>
-        </dependency>
-
-
-    </dependencies>
-
-    <profiles>
-        <profile>
-            <id>jigsaw</id>
-            <activation>
-                <jdk>[1.9,)</jdk>
-            </activation>
-            <!-- No dependencies needed by Jigsaw -->
-            <dependencies/>
-        </profile>
-
-        <profile>
-            <id>default-jdk</id>
-            <activation>
-                <file>
-                    <exists>${env.JAVA8_HOME}/../lib/tools.jar</exists>
-                </file>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>com.sun</groupId>
-                    <artifactId>tools</artifactId>
-                    <scope>system</scope>
-                    <version>1.8</version>
-                    <systemPath>${env.JAVA8_HOME}/../lib/tools.jar</systemPath>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
-
+	<modules>
+		<module>jvm-thread-tool-utils</module>
+		<module>jvm-thread-tool-server</module>
+	</modules>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-dependencies</artifactId>
+	            <version>2.4.2</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+			</dependency>
+			
+			<dependency>
+	            <groupId>org.projectlombok</groupId>
+	            <artifactId>lombok</artifactId>
+	            <version>1.18.12</version>
+	            <scope>provided</scope>
+	        </dependency>
+			
+		</dependencies>
+	</dependencyManagement>
 </project>
