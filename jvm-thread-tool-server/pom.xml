@@ -14,6 +14,12 @@
     <artifactId>jvm-thread-tool-server</artifactId>
 
     <dependencies>
+		<dependency>
+		    <groupId>fr.an.jvm.thread.tool</groupId>
+		    <artifactId>jvm-thread-tool-utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

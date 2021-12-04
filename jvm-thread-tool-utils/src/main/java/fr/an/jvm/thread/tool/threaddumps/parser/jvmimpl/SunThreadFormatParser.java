@@ -17,8 +17,8 @@ public class SunThreadFormatParser implements ThreadFormatParser {
 
     private static final Pattern threadPattern = Pattern
             .compile("\"([^\"]+)\" (#\\S+ )?(daemon )?(prio=(\\S+) )?(os_prio=\\S+ )?"
-                    + "(cpu=(\\d+,\\d*)ms )?"
-                    + "(elapsed=(\\d+,\\d*)s )?"
+                    + "(cpu=(\\d+[,\\.]\\d*)ms )?"
+                    + "(elapsed=(\\d+[,\\.]\\d*)s )?"
                     + "tid=(\\S+) nid=\\S+ (runnable |waiting on condition )?(.*)");
 
     private static final Pattern methodPattern = Pattern.compile("\\s+at ([\\p{Alnum}$_.<>]+)\\(([^\\)]*)\\)");
@@ -30,7 +30,7 @@ public class SunThreadFormatParser implements ThreadFormatParser {
 
     // example: - eliminated <owner is scalar replaced> (a java.io.DataInputStream)    at org.eclipse.jdi.internal.connect.PacketReceiveManager.readAvailablePacket(PacketReceiveManager.java:300)
     private static final Pattern eliminatedScalarPattern = Pattern
-            .compile("\t- eliminated <([^>]*)> \\(a ([^\\)]*)\\)\\s+at (.*)");
+            .compile("\t- eliminated <([^>]*)> \\(a ([^\\)]*)\\)(\\s+at (.*))?");
     
     
     public SunThreadFormatParser() {
@@ -90,10 +90,18 @@ public class SunThreadFormatParser implements ThreadFormatParser {
             LockThreadLineInfo res2 = new LockThreadLineInfo();
             res2.setType(LockThreadLineInfo.TYPE_WAIT);
             res = res2;
-        } else if ((matcher = eliminatedScalarPattern.matcher(s)).matches()) {
-            String type = matcher.group(1), eliminated = matcher.group(2), className = matcher.group(3);
-            EliminatedThreadLineInfo res2 = new EliminatedThreadLineInfo(type, eliminated, className);
-            res = res2;
+        } else if (s.startsWith("\t- eliminated")) {
+        	matcher = eliminatedScalarPattern.matcher(s);
+        	if (matcher.matches()) {
+	            String type = matcher.group(1), eliminated = matcher.group(2);
+	            String className = matcher.group(3);
+	            String at = matcher.group(4);
+	            EliminatedThreadLineInfo res2 = new EliminatedThreadLineInfo(type, eliminated, className);
+	            res = res2;
+        	} else {
+                System.err.println("Unknown - eliminated line: '" + s + "'");
+        		res = new MethodThreadLineInfo();
+        	}
         } else {
             System.err.println("Unknown line: '" + s + "'");
             res = new MethodThreadLineInfo();

@@ -1,4 +1,4 @@
-package fr.an.jvm.thread.tool.server;
+package fr.an.jvm.thread.tool.flamegraph.model;
 
 import java.util.ArrayList;
 import java.util.List;

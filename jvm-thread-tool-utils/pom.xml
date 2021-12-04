@@ -21,7 +21,13 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+        </dependency>
+  
     </dependencies>
+    
 
     <profiles>
         <profile>
@@ -36,7 +42,7 @@
             <id>default-jdk</id>
             <activation>
                 <file>
-                    <exists>${env.JAVA8_HOME}/../lib/tools.jar</exists>
+                    <exists>${env.JAVA8_HOME}/lib/tools.jar</exists>
                 </file>
             </activation>
             <dependencies>
@@ -45,7 +51,7 @@
                     <artifactId>tools</artifactId>
                     <scope>system</scope>
                     <version>1.8</version>
-                    <systemPath>${env.JAVA8_HOME}/../lib/tools.jar</systemPath>
+                    <systemPath>${env.JAVA8_HOME}/lib/tools.jar</systemPath>
                 </dependency>
             </dependencies>
         </profile>
