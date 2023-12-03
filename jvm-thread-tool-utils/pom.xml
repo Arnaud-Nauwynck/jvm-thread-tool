@@ -17,8 +17,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -29,32 +28,5 @@
     </dependencies>
     
 
-    <profiles>
-        <profile>
-            <id>jigsaw</id>
-            <activation>
-                <jdk>[1.9,)</jdk>
-            </activation>
-            <dependencies/>
-        </profile>
-
-        <profile>
-            <id>default-jdk</id>
-            <activation>
-                <file>
-                    <exists>${env.JAVA8_HOME}/lib/tools.jar</exists>
-                </file>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>com.sun</groupId>
-                    <artifactId>tools</artifactId>
-                    <scope>system</scope>
-                    <version>1.8</version>
-                    <systemPath>${env.JAVA8_HOME}/lib/tools.jar</systemPath>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 
 </project>
